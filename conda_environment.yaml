@@ -20,6 +20,7 @@ dependencies:
     # Put any pip dependencies here (and no conda ones anywhere below)
 
   # Tooling requirements (don't edit)
+    - git+ssh://git@github.com/nestauk/data_getters.git
     - tornado>=5.0  # Required to stop luigi from breaking jupyter
     - tqdm
     - pyyaml
