@@ -13,7 +13,7 @@ dependencies:
   - jupyterlab
   - ipython
   - clang_osx-64
-  - gcc_linux-64
+  #- gcc_linux-64
   # Put any conda dependencies here
 
   - pip:
