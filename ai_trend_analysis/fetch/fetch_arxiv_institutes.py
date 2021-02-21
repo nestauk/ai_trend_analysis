@@ -24,30 +24,38 @@ def fetch_arxiv_grid():
     if os.path.exists(ARXIV_GRID_PATH) is False:
         logging.info("Collecting arXiv org data")
         arx_g = get_arxiv_grid(config_path, all_articles=True, include_mag_authors=True)
+        arx_g.to_csv("ARXIV_GRID_PATH")
 
         # Collect the grid data (if necessary)
-
-        if os.path.exists(GRID_PATH) is False:
-            logging.info("Collecting Grid data")
-            os.mkdir(GRID_PATH)
-            g = requests.get(
-                "https://digitalscience.figshare.com/ndownloader/files/23552738"
-            )
-            g_z = ZipFile(BytesIO(g.content))
-            g_z.extractall(GRID_PATH)
-
-        grid_types = (
-            pd.read_csv(f"{GRID_PATH}/full_tables/types.csv")
-            .set_index("grid_id")["type"]
-            .to_dict()
-        )
-        arx_g["org_type"] = arx_g["institute_id"].map(grid_types)
-
-        logging.info("Saving arXiv data")
-        arx_g.to_csv(ARXIV_GRID_PATH)
     else:
         logging.info("Already collected arXiv GRID data")
+
+    if os.path.exists(GRID_PATH) is False:
+        logging.info("Collecting Grid data")
+        os.mkdir(GRID_PATH)
+        g = requests.get(
+            "https://digitalscience.figshare.com/ndownloader/files/23552738"
+        )
+        g_z = ZipFile(BytesIO(g.content))
+        g_z.extractall(GRID_PATH)
+    else:
+        logging.info("Already collected GRID data")
+
+
+def process_arxiv_grid():
+    logging.info("Adding org types to arXiv grid data")
+    arxiv_grid = pd.read_csv(ARXIV_GRID_PATH, dtype={"article_id": str})
+
+    grid_types = (
+        pd.read_csv(f"{GRID_PATH}/full_tables/types.csv")
+        .set_index("grid_id")["type"]
+        .to_dict()
+    )
+    arxiv_grid["org_type"] = arxiv_grid["institute_id"].map(grid_types)
+
+    arxiv_grid.to_csv(ARXIV_GRID_PATH)
 
 
 if __name__ == "__main__":
     fetch_arxiv_grid()
+    process_arxiv_grid()

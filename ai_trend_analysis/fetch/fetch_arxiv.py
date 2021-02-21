@@ -36,7 +36,7 @@ def fetch_arxiv_tables():
 
     logging.info("Downloading data")
 
-    for t in ["arxiv_article_categories", "arxiv_articles", "arxiv_corex_topics"]:
+    for t in ["arxiv_article_categories", "arxiv_articles"]:
 
         # Read and save tables
         if os.path.exists(f"{DATA_PATH}/{t}.csv") is False:
@@ -46,4 +46,4 @@ def fetch_arxiv_tables():
 
 
 if __name__ == "__main__":
-    fetch_arxiv_tables
+    fetch_arxiv_tables()
