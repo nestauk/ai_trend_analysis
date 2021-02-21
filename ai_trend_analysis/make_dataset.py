@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 from dotenv import find_dotenv, load_dotenv
+
 # Important to import the module
 # This configures logging, file-paths, model config variables
 import ai_trend_analysis
@@ -10,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    """ Runs data processing scripts to turn raw data from (../raw) into
-        cleaned data ready to be analyzed (saved in ../processed).
+    """Runs data processing scripts to turn raw data from (../raw) into
+    cleaned data ready to be analyzed (saved in ../processed).
     """
 
     config = ai_trend_analysis.config
