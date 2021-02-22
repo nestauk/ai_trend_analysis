@@ -42,6 +42,9 @@ def fetch_arxiv_tables():
         if os.path.exists(f"{DATA_PATH}/{t}.csv") is False:
             logging.info(f"Donwloading table: {t}")
             daps_t = fetch_daps_table(t, con, 1000)
+            # Change column names
+            if "id" in daps_t.columns:
+                daps_t = daps_t.rename(columns={"id": "article_id"})
             daps_t.to_csv(f"{DATA_PATH}/{t}.csv", index=False)
 
 
