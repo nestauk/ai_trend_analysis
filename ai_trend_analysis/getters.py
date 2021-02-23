@@ -14,12 +14,29 @@ def get_articles():
     )
 
 
-def get_institutes():
-    """Gets arxiv institutes"""
-    return pd.read_csv(
+def get_institutes(deepmind=True):
+    """Gets arxiv institutes
+    Args
+        deepmind (bool): if True we drop Google institutes in deepmind ids.
+        Otherwise we drop DeepMind institutes
+    """
+
+    ag = pd.read_csv(
         f"{project_dir}/data/arxiv/processed/arxiv_institutes.csv",
         dtype={"article_id": str},
     )
+
+    if deepmind is True:
+        d_ids = set(ag.query("institute_name=='DeepMind'")["article_id"])
+
+        ag_ = ag.loc[
+            ~((ag["article_id"].isin(d_ids)) & (ag["institute_name"] == "Google"))
+        ].reset_index(drop=True)
+
+    else:
+        ag_ = ag.query("institute_name!='DeepMind")
+
+    return ag_
 
 
 def get_article_categories():

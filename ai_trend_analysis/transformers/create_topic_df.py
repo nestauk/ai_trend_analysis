@@ -32,7 +32,7 @@ def post_process_model(model, top_level):
 
     # Create tidier names
     topic_name_lookup = {
-        key: "_".join([x[0] for x in values[:5]]) for key, values in word_mix.items()
+        key: "__".join([x[0] for x in values[:5]]) for key, values in word_mix.items()
     }
     topic_names = list(topic_name_lookup.values())
 
@@ -44,7 +44,7 @@ def post_process_model(model, top_level):
         index=model.documents,
     )
 
-    return topic_mix_
+    return topic_mix_, topic_names
 
 
 def filter_topics(topic_df, presence_thr, prevalence_thr):
@@ -59,8 +59,7 @@ def filter_topics(topic_df, presence_thr, prevalence_thr):
     # Remove highly uninformative / generic topics
 
     topic_prevalence = (
-        topic_df.iloc[:, 1:]
-        .applymap(lambda x: x > presence_thr)
+        topic_df.applymap(lambda x: x > presence_thr)
         .mean()
         .sort_values(ascending=False)
     )

@@ -4,7 +4,7 @@ channels:
   - defaults
 dependencies:
   - pip
-  - python=3.6.5
+  - python=3.7
   - numpy
   - scipy
   - pandas
@@ -19,6 +19,7 @@ dependencies:
   - scikit-learn
   - altair
   - graph-tool
+  - networkx
   # Put any conda dependencies here
 
   - pip:

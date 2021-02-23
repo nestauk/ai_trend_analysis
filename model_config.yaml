@@ -11,3 +11,6 @@ expansion_dict:
   cs.NE: 2
   cs.LG: 1
   stat.ML: 1
+case_categories:
+  - ["cs.CY",False] 
+  - ["cs.CL",False]
